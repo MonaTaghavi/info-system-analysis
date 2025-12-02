@@ -1,0 +1,43 @@
+stateDiagram-v2
+    [*] --> Not_Enrolled
+    state fork_state <<fork>>
+        Not_Enrolled --> fork_state :enrollment
+        fork_state --> Enrolled: 
+        fork_state --> Inactive: 
+
+    state join_state <<join>>
+        Enrolled --> join_state
+        Inactive --> join_state
+        join_state --> Active: Sign Contract
+
+    state if_state <<choice>>
+        Active --> if_state
+        if_state --> Full_time: Register full_time course
+        if_state --> Part_time: Register part_time course
+    
+    state if_state2 <<choice>>
+        Full_time --> if_state2
+        Part_time --> if_state2
+        if_state2 --> Paid : Pay tuition
+        if_state2 --> Unpaid : Not pay tuition
+
+    Unpaid --> Inactive: exceed payment date
+
+    state if_state1 <<choice>>
+        Paid --> if_state1
+        if_state1 --> Inactive: drop out of school
+        if_state1 --> AttendingClasses
+    
+        AttendingClasses --> On_leave: terminate contract
+
+    state if_state3 <<choice>>
+        AttendingClasses --> if_state3 : taking the exam
+        if_state3 --> Passed: Pass the course
+        if_state3 --> Failed: Fail the course
+
+    Failed --> Passed: retake the course and pass 
+    Failed --> Failed: retake the course and failed again
+    Passed --> Graduate: pass all the course
+
+    On_leave --> [*]
+    Graduate --> [*]

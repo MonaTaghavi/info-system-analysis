@@ -1,0 +1,56 @@
+stateDiagram-v2
+s1:applyPending
+[*] --> s1
+s2:admissionOffered
+s1-->s2:application accepted
+state if_state <<choice>>
+s2-->if_state
+s3:SignAdmission
+s4:decline the addmission
+if_state --> s3: accepts
+if_state -->  s4: declined
+s5:acceptance letter recieved
+s3-->s5:waiting for the letter
+ state fork_state <<fork>>
+ s5-->fork_state:applying for visa and register at collge
+ s7:registred in the college
+ fork_state --> s6
+fork_state --> s7
+s6:visa applied
+state if_state0 <<choice>>
+ s7-->if_state0
+if_state0-->s81: Do not pay tuition
+s81: aborted
+s81-->[*]
+if_state0-->s8: pays tuition
+s8:tuition paid
+s9:student ID is assigned
+s8-->s9:id is processed
+state if_state1 <<choice>>
+s6-->if_state1
+s10:visa provided
+s11:request declined
+if_state1-->s10:granting visa
+if_state1-->s11: the visa process cancelled
+s11-->s6
+ state join_state <<join>>
+s10 --> join_state
+ s9 --> join_state
+ s12: courses assigned
+join_state --> s12
+s13:course schedul is obtained
+s12-->s13:schedual being provided
+s14:in the process of learning
+s13-->s14:access to the time/location of class
+state if_state2 <<choice>>
+s14-->if_state2: taking the exam
+s15:passed
+s16:failed
+if_state2-->s15: [grade>60]
+if_state2-->s16: [grade<60]
+s16-->s14:repeating courses
+s16-->s81:fail to retake the courses
+s17:graduate
+s15-->s17
+s17-->[*]
+s4-->[*]

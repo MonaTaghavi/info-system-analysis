@@ -1,0 +1,81 @@
+classDiagram
+
+class ATM {
+    string location
+    string owned by
+    int deviceID
+}
+
+class Transaction {
+    string transactionID
+    string type
+    date 
+}
+class Deposit {
+    insertmoneytoaccount()
+}
+class Withdraw {
+    takemoneyfromaccount()
+}
+
+
+class Client {
+    string username
+    string password
+    money amount
+    item card
+
+    Useatm()
+}
+
+
+class Branch {
+    string branchID
+    string managername
+    string branchLocation
+    string mainphone
+}
+
+class Account {
+ 
+acountId
+    acountType
+    date dateOpened
+    money balance
+}
+
+class Card {
+    <<abstract>>
+    identifier
+}
+
+class DebitCard {
+    money balance
+}
+
+class CreditCard {
+    money limit
+}
+
+class Bank {
+    money reserves
+}
+
+Card <|-- DebitCard
+Card <|-- CreditCard
+
+Transaction <|-- Withdraw
+Transaction <|-- Deposit
+
+
+Client "1" -- "0..*" Account
+Client "1..*" -- "1" Bank
+Branch "1" --  "0..*" Account
+Bank "1" --  "0..*" ATM
+Client "1" -- "0..*" Card
+Bank "1" -- "0..*" Card
+Bank "1" *-- "1..*" Branch
+Bank "1" *-- "1..*" Account
+
+Transaction "0..*" -- "1" Account
+Transaction "0..*" -- "1" ATM
